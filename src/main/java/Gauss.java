@@ -5,21 +5,25 @@ public class Gauss {
     public static void solve(Matrix m) {
         matrix = m;
         for (int i = 0; i < Math.min(matrix.rows, matrix.columns); ++i) {
-            findFirstNotZero(i);
+            if(findFirstNotZero(i)){
+                continue;
+            }
             normalizeRow(i, i);
             excludeVarFromColumn(i,i);
         }
     }
 
-    private static void findFirstNotZero(int i) {
+    private static boolean findFirstNotZero(int i) {
         if (Double.compare(matrix.get(i, i), 0) == 0) {
             for (int j = i + 1; j < matrix.rows; ++j) {
                 if (Double.compare(matrix.get(j, i), 0) != 0) {
                     matrix.swapRows(j, i);
-                    break;
+                    return false;
                 }
             }
+            return true;
         }
+        return false;
     }
 
     private static void normalizeRow(int row, int column) {
